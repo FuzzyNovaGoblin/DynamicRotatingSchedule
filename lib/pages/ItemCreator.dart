@@ -1,15 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:schedule/logic/Day.dart';
 
 import 'package:flutter/material.dart';
 import 'package:schedule/logic/sItem.dart';
 
+
+
 class ItemCreator extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new ItemCreatorState();
   VoidCallback endpop;
+  VoidCallback saveData;
 
-  ItemCreator(this.endpop);
+  ItemCreator(this.endpop, this.saveData);
   
 }
 
@@ -137,7 +141,6 @@ class ItemCreatorState extends State<ItemCreator> {
                   ),
                   onPressed: () {
                     Days.days[Days.selectedDay].items.add(new sItem(
-                        context: context,
                         endHr: endHr,
                         endMin: endMin,
                         name: name,
@@ -150,6 +153,9 @@ class ItemCreatorState extends State<ItemCreator> {
                       Navigator.pop(context);
                       widget.endpop();
                     });
+                    Days.days[0].items[0].GenerateStrings(context);
+                    widget.saveData();
+                    print(Days.toJson());
                   },
                 ))
           ],
