@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:schedule/logic/Day.dart';
+import 'package:schedule/parts/DeleteDayDialog.dart';
 
 class DayNavView extends StatefulWidget
 {
@@ -11,7 +12,8 @@ class DayNavView extends StatefulWidget
     return new DayNavViewState();
   }
   VoidCallback endpop;
-  DayNavView(this.endpop);
+  VoidCallback saveData;
+  DayNavView({this.endpop, this.saveData});
 }
 
 class DayNavViewState extends State<DayNavView>
@@ -38,7 +40,7 @@ class DayNavViewState extends State<DayNavView>
                         TextEditingController controller =
                         new TextEditingController();
                         return new SimpleDialog(
-                          title: Text("Name"),
+                          title: Text("Add Day"),
                           titlePadding: EdgeInsets.all(8.0),
                           children: <Widget>[
                             new Padding(
@@ -123,6 +125,20 @@ class DayNavViewState extends State<DayNavView>
                     
                       Navigator.pop(context);
                       widget.endpop();
+                  },
+                  onLongPress: () async
+                  {
+                    print("log press");
+                    await showDialog(
+                        context: context,
+                        builder: (BuildContext context)
+                        {
+                          return new DeleteDayDialog(index: index, endDialog: () async {
+                            setState(() {});
+                            widget.saveData();
+                          },);
+                        }
+                    );
                   },
                 ));
           }

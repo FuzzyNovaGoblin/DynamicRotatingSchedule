@@ -12,11 +12,3 @@ void main() => runApp(new MaterialApp(
 //        backgroundColor: Colors.white,
 //      textTheme: TextTheme(display1: TextStyle(color: Colors.black)),
     )));
-
-//void main() => runApp(new MaterialApp(
-//      home: ItemCreator(),
-//      theme: ThemeData(
-//          canvasColor: Colors.white,
-//          accentColor: Colors.black,
-//          primaryColor: Colors.white),
-//    ));
