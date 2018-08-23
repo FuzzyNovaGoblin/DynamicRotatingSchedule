@@ -12,7 +12,8 @@ class DayNavView extends StatefulWidget
     return new DayNavViewState();
   }
   VoidCallback endpop;
-  DayNavView(this.endpop);
+  VoidCallback saveData;
+  DayNavView({this.endpop, this.saveData});
 }
 
 class DayNavViewState extends State<DayNavView>
@@ -132,8 +133,10 @@ class DayNavViewState extends State<DayNavView>
                         context: context,
                         builder: (BuildContext context)
                         {
-                          return new DeleteDayDialog(index: index, refreshPage: (){setState(() {
-                          });},);
+                          return new DeleteDayDialog(index: index, endDialog: () async {
+                            setState(() {});
+                            widget.saveData();
+                          },);
                         }
                     );
                   },

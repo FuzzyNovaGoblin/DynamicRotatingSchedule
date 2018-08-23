@@ -4,8 +4,8 @@ import 'package:schedule/logic/Day.dart';
 class DeleteDayDialog extends SimpleDialog
 {
   int index;
-  VoidCallback refreshPage;
-  DeleteDayDialog({this.index, this.refreshPage});
+  VoidCallback endDialog;
+  DeleteDayDialog({this.index, this.endDialog});
   
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class DeleteDayDialog extends SimpleDialog
               onPressed: (){
                 Days.days.removeAt(index);
                 Navigator.pop(context);
-                refreshPage();
+                endDialog();
               },
             ),
           ],

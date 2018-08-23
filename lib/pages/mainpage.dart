@@ -36,9 +36,12 @@ class MainPageState extends State<MainPage> {
         title: Text( //"hello"),
             (Days.days.isNotEmpty) ? Days.days[Days.selectedDay].name : ""),
       ),
-      drawer: new DayNavView(() {
+      drawer: new DayNavView(
+          endpop: () {
         setState(() {});
-      }),
+      },
+      saveData: () async => saveData(),
+      ),
       body: (Days.days.isNotEmpty)
           ? new Material(
         child: new Stack(
