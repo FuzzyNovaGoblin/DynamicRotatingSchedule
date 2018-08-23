@@ -24,7 +24,7 @@ class MainPageState extends State<MainPage> {
   void initState() {
     print("runing init state");
     super.initState();
-    //loadData();
+    loadData();
   }
 
   @override
