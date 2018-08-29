@@ -8,6 +8,8 @@ import 'package:schedule/ui/navview.dart';
 import 'package:schedule/pages/ItemCreator.dart';
 import 'package:schedule/pages/ItemEditor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:schedule/logic/Flags.dart';
+import 'package:schedule/parts/ReorderButton.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -19,11 +21,21 @@ class MainPage extends StatefulWidget {
 class MainPageState extends State<MainPage> {
 
 
+  Choice _selectedChoice;
+
+  void _select(Choice choice) {
+    // Causes the app to rebuild with the new _selectedChoice.
+    setState(() {
+      _selectedChoice = choice;
+    });
+  }
+
 
   @override
   void initState() {
     print("runing init state");
     super.initState();
+    Flags.init();
     loadData();
   }
 
@@ -31,10 +43,26 @@ class MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     setState(() {
     });
+//    print("Day: "+Days.selectedDay.toString());
+//    print("Days size: "+Days.days.length.toString());
     return new Scaffold(
       appBar: new AppBar(
         title: Text( //"hello"),
             (Days.days.isNotEmpty) ? Days.days[Days.selectedDay].name : ""),
+        actions: <Widget>[
+          PopupMenuButton<Choice>(
+            onSelected: _select,
+            itemBuilder: (BuildContext context)
+            {
+              return choices.map((Choice choice){
+                return PopupMenuItem<Choice>(
+                  value: choice,
+                  child: Text(choice.title),
+                );
+              }).toList();
+            },
+          )
+        ],
       ),
       drawer: new DayNavView(
           endpop: () {
@@ -54,74 +82,145 @@ class MainPageState extends State<MainPage> {
                       Days.days[Days.selectedDay].items.length
                           .toString());
 //                        return new Text("h");
-                  return new Card(
-                    child: InkWell(
-                      onLongPress: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ItemEditor(() {
-                                      setState() {}
-                                    }, index)));
-                      },
-                      child: new Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: new Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: <Widget>[
+                  if((_selectedChoice == choices[0]))
+                    {
+                      return new Card(
+                        child: new InkWell(
+                          onLongPress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ItemEditor(() {
+                                          setState() {}
+                                        }, index)));
+                          },
+                          child: new Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: new Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    new Text(
+                                      Days.days[Days.selectedDay].items[index]
+                                          .name,
+                                      style: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .headline,
+                                    ),
+                                    new Text(
+                                      Days.days[Days.selectedDay].items[index]
+                                          .place,
+                                      style:
+                                      Theme
+                                          .of(context)
+                                          .textTheme
+                                          .subhead,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              new Column(children: <Widget>[
                                 new Text(
                                   Days.days[Days.selectedDay].items[index]
-                                      .name,
+                                      .startStr,
                                   style: Theme
                                       .of(context)
                                       .textTheme
-                                      .headline,
+                                      .body1,
                                 ),
                                 new Text(
                                   Days.days[Days.selectedDay].items[index]
-                                      .place,
-                                  style:
-                                  Theme
+                                      .endStr,
+                                  style: Theme
                                       .of(context)
                                       .textTheme
-                                      .subhead,
+                                      .body1,
                                 ),
-                              ],
-                            ),
+                              ]),
+
+                              new ReorderButton(UpOrDown.Up, index, (){setState(() { });}),
+                              new ReorderButton(UpOrDown.Down, index, (){setState(() { });}),
+                            ],
                           ),
-                          new Column(children: <Widget>[
-                            new Text(
-                              Days.days[Days.selectedDay].items[index]
-                                  .startStr,
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .body1,
-                            ),
-                            new Text(
-                              Days.days[Days.selectedDay].items[index]
-                                  .endStr,
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .body1,
-                            ),
-                          ])
-                        ],
-                      ),
-                    ),
-                  );
+                        ),
+                      );
+                    }
+                  else
+                    {
+                      return new Card(
+                        child: InkWell(
+                          onLongPress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ItemEditor(() {
+                                          setState() {}
+                                        }, index)));
+                          },
+                          child: new Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: new Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    new Text(
+                                      Days.days[Days.selectedDay].items[index]
+                                          .name,
+                                      style: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .headline,
+                                    ),
+                                    new Text(
+                                      Days.days[Days.selectedDay].items[index]
+                                          .place,
+                                      style:
+                                      Theme
+                                          .of(context)
+                                          .textTheme
+                                          .subhead,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              new Column(children: <Widget>[
+                                new Text(
+                                  Days.days[Days.selectedDay].items[index]
+                                      .startStr,
+                                  style: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .body1,
+                                ),
+                                new Text(
+                                  Days.days[Days.selectedDay].items[index]
+                                      .endStr,
+                                  style: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .body1,
+                                ),
+                              ])
+                            ],
+                          ),
+                        ),
+                      );
+                    }
                 }
               },
             ),
             new Positioned(
                 bottom: 25.0,
                 right: 25.0,
-                child: new FloatingActionButton(
+                child: (_selectedChoice != choices[0])?
+                new FloatingActionButton(
                   child: Icon(Icons.add),
                   onPressed: () {
                     Navigator.push(
@@ -130,11 +229,20 @@ class MainPageState extends State<MainPage> {
                             builder: (context) =>
                                 ItemCreator(
                                         () {setState() {}},
-                                    ()=>saveData()
+                                        ()=>saveData()
                                 )));
                   },
+                ):
+                new FloatingActionButton(
+                  child: Icon(Icons.check),
+                  onPressed: () {
+                    saveData();
+                    Flags.reorder = false;
+                    _select(null);
+                  },
                 ))
-          ],
+
+      ],
         ),
       )
           : new Material(
@@ -170,7 +278,14 @@ class MainPageState extends State<MainPage> {
                         children: <Widget>[
                           new SimpleDialogOption(
                             child: Text("Cancel"),
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: ()
+                            {
+                              Navigator.pop(context);
+                              setState(() {
+                                Days.selectedDay = 0;
+                                saveData();
+                              });
+                            },
                           ),
                           new SimpleDialogOption(
                             child: Text("Done"),
@@ -192,19 +307,22 @@ class MainPageState extends State<MainPage> {
                       ),
                     ],
                   );
-                });
+                }
+                );
           },
           child: new Center(
             child: Text("Click to add day"),
           ),
         ),
       ),
+
     );
   }
 
   saveData() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(Days.jsonKey, Days.toJson());
+    prefs.setInt(Days.dayKey, Days.selectedDay);
   }
 
   loadData() async {
@@ -226,6 +344,7 @@ class MainPageState extends State<MainPage> {
           }
       }
     });
+    Days.selectedDay = (prefs.getInt(Days.dayKey) != null) ? prefs.getInt(Days.dayKey) : 0;
 
   }
 
@@ -234,3 +353,14 @@ class MainPageState extends State<MainPage> {
     loadData();
   }
 }
+
+
+class Choice {
+  const Choice({this.title, this.icon});
+
+  final String title;
+  final IconData icon;
+}
+const List<Choice> choices = const <Choice>[
+  const Choice(title: 'Reorder', icon: Icons.reorder),
+];
