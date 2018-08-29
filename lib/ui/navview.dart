@@ -29,8 +29,8 @@ class DayNavViewState extends State<DayNavView>
           {
             return new Card(
               child: new InkWell(
-                onTap: ()
-                async {
+                onTap: () async
+                {
 //                  Navigator.pop(context);
                   await showDialog(
                       context: context,
@@ -76,9 +76,10 @@ class DayNavViewState extends State<DayNavView>
                                       {
                                         Days.days.add(new Day(dayName));
                                       }
+                                      widget.saveData();
                                     });
                                     Navigator.pop(context);
-    
+                    
                                     Scaffold.of(context).showSnackBar(
 //                                      new SnackBar(content: Text(dayName)));
                                         new SnackBar(content: Text("hello"))
@@ -89,12 +90,13 @@ class DayNavViewState extends State<DayNavView>
                             ),
                           ],
                         );
-                      });
+                      }
+                  );
                 },
-                child: Row(
+                child: new Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
+                    new Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                           decoration: ShapeDecoration(
@@ -102,9 +104,10 @@ class DayNavViewState extends State<DayNavView>
                           child: Icon(
                             Icons.add,
                             color: Colors.white,
-                          )),
+                          )
+                      ),
                     ),
-                    Padding(
+                    new Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text("Add"),
                     )
@@ -115,16 +118,16 @@ class DayNavViewState extends State<DayNavView>
           }
           else if (index < Days.days.length)
           {
-            return Card(
-                child: InkWell(
+            return new Card(
+                child: new InkWell(
                   child: Text(Days.days[index].name,style: TextStyle(fontSize: 40.0),),
                   onTap: ()
                   {
                     print("index: "+index.toString());
                     Days.selectedDay = index;
-                    
-                      Navigator.pop(context);
-                      widget.endpop();
+                    widget.saveData();
+                    Navigator.pop(context);
+                    widget.endpop();
                   },
                   onLongPress: () async
                   {
