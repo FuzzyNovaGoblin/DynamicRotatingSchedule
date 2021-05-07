@@ -1,6 +1,6 @@
-# schedule
+# Dynamic Rotating Schedule
 
-A new Flutter application.
+simple schedule app for rotating schedual like some highschools implement
 
 ## Getting Started
 
