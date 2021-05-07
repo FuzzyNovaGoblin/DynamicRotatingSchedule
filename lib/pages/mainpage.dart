@@ -81,7 +81,6 @@ class MainPageState extends State<MainPage> {
                   print("Days.days[Days.selectedDay].items.length: " +
                       Days.days[Days.selectedDay].items.length
                           .toString());
-//                        return new Text("h");
                   if((_selectedChoice == choices[0]))
                     {
                       return new Card(
