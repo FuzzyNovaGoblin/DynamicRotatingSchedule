@@ -137,6 +137,7 @@ class ItemEditorState extends State<ItemEditor> {
                                     child: new Text("Yes"),
                                     onPressed: () {
                                       Days.days[Days.selectedDay].items.removeAt(widget.itemIndex);
+                                      
                                       Navigator.pop(context);
                                       Navigator.pop(context);
                                     },

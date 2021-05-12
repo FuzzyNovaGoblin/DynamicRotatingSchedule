@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schedule/pages/mainpage.dart';
+import 'package:schedule/ui/FuzColors.dart';
 
 class BaseApp extends StatelessWidget {
   @override
@@ -8,33 +9,35 @@ class BaseApp extends StatelessWidget {
       home: MainPage(),
       title: "Schedule",
       theme: ThemeData(
-        canvasColor: Colors.white,
-        // accentColor: Colors.black,
-        primaryColor: Color(0xff86c8c1),
-        buttonColor: Colors.black,
+        // canvasColor: Colors.white,
+        accentColor: FuzColors.maincolorAccent,
+        primaryColor: FuzColors.maincolor,
+        // buttonColor: Colors.black,
         colorScheme: ColorScheme(
-          primary: Color(0xff86c8c1),
+          primary:  FuzColors.maincolor,
           background: Colors.white,
           brightness: Brightness.light,
           error: Colors.red[900],
           onBackground: Colors.black,
           onError: Colors.white,
-          onPrimary: Colors.white38,
+          onPrimary: Colors.white,
           onSurface: Colors.black,
           onSecondary: Colors.white,
-          primaryVariant: Colors.black38,
-          secondary: Colors.black,
+          primaryVariant: FuzColors.maincoloralternate,
+          secondary: FuzColors.maincolor,
           secondaryVariant: Colors.white,
           surface: Colors.white,
         ),
-        shadowColor: Colors.black,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black), foregroundColor: MaterialStateProperty.all(Colors.white)),
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
-        ),
-        timePickerTheme: TimePickerThemeData(backgroundColor: Colors.white, entryModeIconColor: Colors.black, hourMinuteTextColor: Colors.black, dayPeriodTextStyle: TextStyle(color: Colors.white)),
+        // shadowColor: Colors.black,
+
+
+        // elevatedButtonTheme: ElevatedButtonThemeData(
+        //   style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black), foregroundColor: MaterialStateProperty.all(Colors.white)),
+        // ),
+        // textButtonTheme: TextButtonThemeData(
+        //   style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.black)),
+        // ),
+        // timePickerTheme: TimePickerThemeData(backgroundColor: Colors.white, entryModeIconColor: Colors.black, hourMinuteTextColor: Colors.black, dayPeriodTextStyle: TextStyle(color: Colors.white)),
       ),
     );
   }

@@ -67,7 +67,10 @@ class MainPageState extends State<MainPage> {
                           return new Card(
                             child: new InkWell(
                               onLongPress: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ItemEditor(index))).then((value) => setState(() {}));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ItemEditor(index))).then((value) {
+                                  saveData();
+                                  setState(() {});
+                                });
                               },
                               child: new Row(
                                 children: <Widget>[
@@ -111,7 +114,10 @@ class MainPageState extends State<MainPage> {
                           return new Card(
                             child: InkWell(
                               onLongPress: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ItemEditor(index))).then((value) => setState(() {}));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ItemEditor(index))).then((value) {
+                                  saveData();
+                                  setState(() {});
+                                });
                               },
                               child: new Row(
                                 children: <Widget>[
