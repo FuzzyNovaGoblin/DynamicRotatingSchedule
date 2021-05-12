@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:schedule/logic/Day.dart';
@@ -30,7 +28,6 @@ class MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    print("runing init state");
     super.initState();
     Flags.init();
     loadData();
@@ -41,8 +38,7 @@ class MainPageState extends State<MainPage> {
     setState(() {});
     return new Scaffold(
       appBar: new AppBar(
-        title: Text(//"hello"),
-            (Days.days.isNotEmpty) ? Days.days[Days.selectedDay].name : ""),
+        title: Text((Days.days.isNotEmpty) ? Days.days[Days.selectedDay].name : ""),
         actions: <Widget>[
           PopupMenuButton<Choice>(
             onSelected: _select,
@@ -58,9 +54,6 @@ class MainPageState extends State<MainPage> {
         ],
       ),
       drawer: new DayNavView(
-        endpop: () {
-          setState(() {});
-        },
         saveData: () async => saveData(),
       ),
       body: (Days.days.isNotEmpty)
@@ -70,18 +63,11 @@ class MainPageState extends State<MainPage> {
                   new ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
                       if (index < Days.days[Days.selectedDay].items.length) {
-                        print("index: " + index.toString());
-                        print("Days.days[Days.selectedDay].items.length: " + Days.days[Days.selectedDay].items.length.toString());
                         if ((_selectedChoice == choices[0])) {
                           return new Card(
                             child: new InkWell(
                               onLongPress: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ItemEditor(() {
-                                              setState(() {});
-                                            }, index))).then((value) => setState(() {}));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ItemEditor(index))).then((value) => setState(() {}));
                               },
                               child: new Row(
                                 children: <Widget>[
@@ -125,12 +111,7 @@ class MainPageState extends State<MainPage> {
                           return new Card(
                             child: InkWell(
                               onLongPress: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ItemEditor(() {
-                                              setState(() {});
-                                            }, index))).then((value) => setState(() {}));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ItemEditor(index))).then((value) => setState(() {}));
                               },
                               child: new Row(
                                 children: <Widget>[
@@ -179,9 +160,7 @@ class MainPageState extends State<MainPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ItemCreator(() {
-                                      setState(() {});
-                                    }, () => saveData()),
+                                    builder: (context) => ItemCreator(() => saveData()),
                                   ),
                                 ).then((value) => setState(() {}));
                               },
@@ -200,7 +179,6 @@ class MainPageState extends State<MainPage> {
           : new Material(
               child: new InkWell(
                 onTap: () async {
-//                  Navigator.pop(context);
                   await showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -216,7 +194,6 @@ class MainPageState extends State<MainPage> {
                                 controller: controller,
                                 onChanged: (String value) {
                                   dayName = value;
-                                  print(value);
                                 },
                                 decoration: InputDecoration(
                                   labelText: "Name",
@@ -247,7 +224,6 @@ class MainPageState extends State<MainPage> {
                                     });
                                     saveData();
                                     Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text("hello")));
                                   },
                                 ),
                               ],

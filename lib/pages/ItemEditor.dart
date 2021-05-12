@@ -1,17 +1,14 @@
-import 'dart:async';
 import 'package:schedule/logic/Day.dart';
 
 import 'package:flutter/material.dart';
-import 'package:schedule/logic/sItem.dart';
 
 class ItemEditor extends StatefulWidget {
+  final int itemIndex;
+
+  ItemEditor(this.itemIndex);
+
   @override
   State<StatefulWidget> createState() => new ItemEditorState();
-
-  VoidCallback endpop;
-  int itemIndex;
-
-  ItemEditor(this.endpop, this.itemIndex);
 }
 
 class ItemEditorState extends State<ItemEditor> {
@@ -30,9 +27,6 @@ class ItemEditorState extends State<ItemEditor> {
   @override
   void initState() {
     super.initState();
-
-    print("at index: " + widget.itemIndex.toString());
-
     startHr = Days.days[Days.selectedDay].items[widget.itemIndex].startHr;
     startMin = Days.days[Days.selectedDay].items[widget.itemIndex].startMin;
     startStr = Days.days[Days.selectedDay].items[widget.itemIndex].startStr;
@@ -59,7 +53,7 @@ class ItemEditorState extends State<ItemEditor> {
                     labelText: 'Name',
                     border: const OutlineInputBorder(),
                   ),
-                  style: Theme.of(context).textTheme.display1,
+                  style: Theme.of(context).textTheme.headline4,
                   onChanged: (String value) {
                     name = value;
                   },
@@ -69,7 +63,7 @@ class ItemEditorState extends State<ItemEditor> {
                   child: new TextField(
                     controller: TextEditingController(text: place),
                     decoration: InputDecoration(labelText: "Place", border: OutlineInputBorder()),
-                    style: Theme.of(context).textTheme.body1,
+                    style: Theme.of(context).textTheme.bodyText1,
                     onChanged: (String value) {
                       place = value;
                     },
@@ -186,10 +180,7 @@ class ItemEditorState extends State<ItemEditor> {
                     Days.days[Days.selectedDay].items[widget.itemIndex].endHr = endHr;
                     Days.days[Days.selectedDay].items[widget.itemIndex].name = name;
                     Days.days[Days.selectedDay].items[widget.itemIndex].place = place;
-                    setState(() {
-                      Navigator.pop(context);
-                      widget.endpop();
-                    });
+                    Navigator.pop(context);
                   },
                 ))
           ],

@@ -1,17 +1,14 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:schedule/logic/Day.dart';
 
 import 'package:flutter/material.dart';
-import 'package:schedule/logic/sItem.dart';
+import 'package:schedule/logic/SItem.dart';
 
 class ItemCreator extends StatefulWidget {
+  final VoidCallback saveData;
+  ItemCreator(this.saveData);
+
   @override
   State<StatefulWidget> createState() => new ItemCreatorState();
-  VoidCallback endpop;
-  VoidCallback saveData;
-
-  ItemCreator(this.endpop, this.saveData);
 }
 
 class ItemCreatorState extends State<ItemCreator> {
@@ -123,14 +120,12 @@ class ItemCreatorState extends State<ItemCreator> {
                     Icons.done,
                   ),
                   onPressed: () {
-                    Days.days[Days.selectedDay].items.add(new sItem(endHr: endHr, endMin: endMin, name: name, place: place, startHr: startHr, startMin: startMin, endStr: endStr, startStr: startStr));
+                    Days.days[Days.selectedDay].items.add(new SItem(endHr: endHr, endMin: endMin, name: name, place: place, startHr: startHr, startMin: startMin, endStr: endStr, startStr: startStr));
                     setState(() {
                       Navigator.pop(context);
-                      widget.endpop();
                     });
-                    Days.days[0].items[0].GenerateStrings(context);
+                    Days.days[0].items[0].generateStrings(context);
                     widget.saveData();
-                    print(Days.toJson());
                   },
                 ))
           ],

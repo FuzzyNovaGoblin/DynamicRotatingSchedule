@@ -9,8 +9,8 @@ class BaseApp extends StatelessWidget {
       title: "Schedule",
       theme: ThemeData(
         canvasColor: Colors.white,
-        accentColor: Colors.black,
-        primaryColor: Colors.grey,
+        // accentColor: Colors.black,
+        primaryColor: Color(0xff86c8c1),
         buttonColor: Colors.black,
         colorScheme: ColorScheme(
           primary: Color(0xff86c8c1),

@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sItem.dart';
+part of 'SItem.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-sItem _$sItemFromJson(Map<String, dynamic> json) {
+SItem _$SItemFromJson(Map<String, dynamic> json) {
   $checkKeys(json, allowedKeys: const [
     'name',
     'place',
@@ -17,7 +17,7 @@ sItem _$sItemFromJson(Map<String, dynamic> json) {
     'endMin',
     'endStr'
   ]);
-  return new sItem(
+  return new SItem(
       endMin: json['endMin'] as int,
       endHr: json['endHr'] as int,
       endStr: json['endStr'] as String,
@@ -28,7 +28,7 @@ sItem _$sItemFromJson(Map<String, dynamic> json) {
       startMin: json['startMin'] as int);
 }
 
-abstract class _$sItemSerializerMixin {
+abstract class _$SItemSerializerMixin {
   String get name;
   String get place;
   int get startHr;

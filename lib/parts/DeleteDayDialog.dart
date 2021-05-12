@@ -3,13 +3,12 @@ import 'package:schedule/logic/Day.dart';
 
 class DeleteDayDialog extends SimpleDialog
 {
-  int index;
-  VoidCallback endDialog;
+  final int index;
+  final VoidCallback endDialog;
   DeleteDayDialog({this.index, this.endDialog});
-  
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return SimpleDialog(
       title: Text("Are you sure you want to delete day \"" + Days.days[index].name + "\"?"),
       children: <Widget>[
