@@ -1,4 +1,4 @@
-import 'SItem.dart';
+import 'package:schedule/logic/SItem.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 import 'package:schedule/parts/ReorderButton.dart';

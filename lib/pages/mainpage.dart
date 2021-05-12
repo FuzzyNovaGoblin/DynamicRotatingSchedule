@@ -35,7 +35,12 @@ class MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {});
+    if (Days.selectedDay > 0 && Days.selectedDay >= Days.days.length) {
+      setState(() => Days.selectedDay--);
+    } else if (Days.selectedDay < 0) {
+      setState(() => Days.selectedDay = 0);
+    }
+
     return new Scaffold(
       appBar: new AppBar(
         title: Text((Days.days.isNotEmpty) ? Days.days[Days.selectedDay].name : ""),
@@ -55,6 +60,10 @@ class MainPageState extends State<MainPage> {
       ),
       drawer: new DayNavView(
         saveData: () async => saveData(),
+        redrawClassList: () {
+          saveData();
+          setState(() {});
+        },
       ),
       body: (Days.days.isNotEmpty)
           ? new Material(

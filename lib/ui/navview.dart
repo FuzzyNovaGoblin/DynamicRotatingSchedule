@@ -4,7 +4,8 @@ import 'package:schedule/parts/DeleteDayDialog.dart';
 
 class DayNavView extends StatefulWidget {
   final VoidCallback saveData;
-  DayNavView({this.saveData});
+  final VoidCallback redrawClassList;
+  DayNavView({@required this.saveData, @required this.redrawClassList});
 
   @override
   DayNavViewState createState() {
@@ -29,6 +30,7 @@ class DayNavViewState extends State<DayNavView> {
               onTap: () {
                 Days.selectedDay = index;
                 widget.saveData();
+                widget.redrawClassList();
                 Navigator.pop(context);
               },
               onLongPress: () async {
@@ -38,8 +40,8 @@ class DayNavViewState extends State<DayNavView> {
                       return new DeleteDayDialog(
                         index: index,
                         endDialog: () async {
-                          setState(() {});
                           widget.saveData();
+                          widget.redrawClassList();
                         },
                       );
                     });
