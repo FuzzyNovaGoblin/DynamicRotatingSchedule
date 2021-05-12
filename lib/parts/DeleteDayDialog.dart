@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:schedule/logic/Day.dart';
 
-class DeleteDayDialog extends SimpleDialog
-{
-  int index;
-  VoidCallback endDialog;
+class DeleteDayDialog extends SimpleDialog {
+  final int index;
+  final VoidCallback endDialog;
   DeleteDayDialog({this.index, this.endDialog});
-  
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return SimpleDialog(
       title: Text("Are you sure you want to delete day \"" + Days.days[index].name + "\"?"),
       children: <Widget>[
@@ -18,13 +16,16 @@ class DeleteDayDialog extends SimpleDialog
           children: <Widget>[
             new SimpleDialogOption(
               child: Text("Cancel"),
-              onPressed: (){
+              onPressed: () {
                 Navigator.pop(context);
               },
             ),
             new SimpleDialogOption(
               child: Text("Yes"),
-              onPressed: (){
+              onPressed: () {
+                if (Days.selectedDay > index) {
+                  Days.selectedDay--;
+                }
                 Days.days.removeAt(index);
                 Navigator.pop(context);
                 endDialog();

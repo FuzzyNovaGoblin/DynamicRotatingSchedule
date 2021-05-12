@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'sItem.g.dart';
+part 'SItem.g.dart';
 
 
 @JsonSerializable(disallowUnrecognizedKeys: true)
-class sItem extends Object with _$sItemSerializerMixin{
+class SItem extends Object with _$SItemSerializerMixin{
   String name;
   String place;
   int startHr;
@@ -15,7 +15,7 @@ class sItem extends Object with _$sItemSerializerMixin{
   int endMin;
   String endStr;
 
-  sItem(
+  SItem(
       {this.endMin,
       this.endHr,
       this.endStr,
@@ -25,9 +25,9 @@ class sItem extends Object with _$sItemSerializerMixin{
       this.name,
       this.startMin});
 
-  factory sItem.fromJson(Map<String, dynamic> json) => _$sItemFromJson(json);
+  factory SItem.fromJson(Map<String, dynamic> json) => _$SItemFromJson(json);
 
-  void GenerateStrings(BuildContext context)
+  void generateStrings(BuildContext context)
   {
     startStr = TimeOfDay(hour: startHr, minute: startMin).format(context);
     endStr = TimeOfDay(hour: endHr, minute: endMin).format(context);

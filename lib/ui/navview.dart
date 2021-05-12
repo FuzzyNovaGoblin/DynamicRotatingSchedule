@@ -1,44 +1,61 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:schedule/logic/Day.dart';
 import 'package:schedule/parts/DeleteDayDialog.dart';
 
-class DayNavView extends StatefulWidget
-{
+class DayNavView extends StatefulWidget {
+  final VoidCallback saveData;
+  final VoidCallback redrawClassList;
+  DayNavView({@required this.saveData, @required this.redrawClassList});
+
   @override
-  DayNavViewState createState()
-  {
+  DayNavViewState createState() {
     return new DayNavViewState();
   }
-  VoidCallback endpop;
-  VoidCallback saveData;
-  DayNavView({this.endpop, this.saveData});
 }
 
-class DayNavViewState extends State<DayNavView>
-{
+class DayNavViewState extends State<DayNavView> {
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return new Drawer(
       child: ListView.builder(
-        itemBuilder: (BuildContext context, int index)
-        {
-          if (index == Days.days.length)
-          {
+        itemCount: Days.days.length + 1,
+        itemBuilder: (BuildContext context, int index) {
+          if (index < Days.days.length) {
+            return new Card(
+                child: new InkWell(
+              child: Text(
+                Days.days[index].name,
+                style: TextStyle(fontSize: 40.0),
+              ),
+              onTap: () {
+                Days.selectedDay = index;
+                widget.saveData();
+                widget.redrawClassList();
+                Navigator.pop(context);
+              },
+              onLongPress: () async {
+                await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return new DeleteDayDialog(
+                        index: index,
+                        endDialog: () async {
+                          widget.saveData();
+                          widget.redrawClassList();
+                        },
+                      );
+                    });
+              },
+            ));
+          } else {
             return new Card(
               child: new InkWell(
-                onTap: () async
-                {
-//                  Navigator.pop(context);
+                onTap: () async {
                   await showDialog(
                       context: context,
-                      builder: (BuildContext context)
-                      {
+                      builder: (BuildContext context) {
                         String dayName = "";
-                        TextEditingController controller =
-                        new TextEditingController();
+                        TextEditingController controller = new TextEditingController();
                         return new SimpleDialog(
                           title: Text("Add Day"),
                           titlePadding: EdgeInsets.all(8.0),
@@ -47,10 +64,8 @@ class DayNavViewState extends State<DayNavView>
                               padding: const EdgeInsets.all(8.0),
                               child: TextField(
                                 controller: controller,
-                                onChanged: (String value)
-                                {
+                                onChanged: (String value) {
                                   dayName = value;
-                                  print(value);
                                 },
                                 decoration: InputDecoration(
                                   labelText: "Name",
@@ -63,35 +78,25 @@ class DayNavViewState extends State<DayNavView>
                               children: <Widget>[
                                 new SimpleDialogOption(
                                   child: Text("Cancel"),
-                                  onPressed: ()
-                                  => Navigator.pop(context),
+                                  onPressed: () => Navigator.pop(context),
                                 ),
                                 new SimpleDialogOption(
                                   child: Text("Done"),
-                                  onPressed: ()
-                                  {
-                                    setState(()
-                                    {
-                                      if (dayName != "")
-                                      {
+                                  onPressed: () {
+                                    setState(() {
+                                      if (dayName != "") {
                                         Days.days.add(new Day(dayName));
                                       }
                                       widget.saveData();
                                     });
                                     Navigator.pop(context);
-                    
-                                    Scaffold.of(context).showSnackBar(
-//                                      new SnackBar(content: Text(dayName)));
-                                        new SnackBar(content: Text("hello"))
-                                    );
                                   },
                                 ),
                               ],
                             ),
                           ],
                         );
-                      }
-                  );
+                      });
                 },
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -99,13 +104,11 @@ class DayNavViewState extends State<DayNavView>
                     new Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                          decoration: ShapeDecoration(
-                              shape: CircleBorder(), color: Colors.black),
+                          decoration: ShapeDecoration(shape: CircleBorder(), color: Colors.black),
                           child: Icon(
                             Icons.add,
                             color: Colors.white,
-                          )
-                      ),
+                          )),
                     ),
                     new Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -115,35 +118,6 @@ class DayNavViewState extends State<DayNavView>
                 ),
               ),
             );
-          }
-          else if (index < Days.days.length)
-          {
-            return new Card(
-                child: new InkWell(
-                  child: Text(Days.days[index].name,style: TextStyle(fontSize: 40.0),),
-                  onTap: ()
-                  {
-                    print("index: "+index.toString());
-                    Days.selectedDay = index;
-                    widget.saveData();
-                    Navigator.pop(context);
-                    widget.endpop();
-                  },
-                  onLongPress: () async
-                  {
-                    print("log press");
-                    await showDialog(
-                        context: context,
-                        builder: (BuildContext context)
-                        {
-                          return new DeleteDayDialog(index: index, endDialog: () async {
-                            setState(() {});
-                            widget.saveData();
-                          },);
-                        }
-                    );
-                  },
-                ));
           }
         },
       ),

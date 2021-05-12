@@ -1,9 +1,6 @@
-import 'dart:async';
-
-import 'sItem.dart';
+import 'package:schedule/logic/SItem.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:schedule/parts/ReorderButton.dart';
 
 part 'Day.g.dart';
@@ -11,9 +8,9 @@ part 'Day.g.dart';
 @JsonSerializable()
 class Day extends Object with _$DaySerializerMixin{
   String name;
-  List<sItem> items;
+  List<SItem> items;
   Day(this.name){
-    items = new List();
+    items = [];
   }
   factory Day.fromJson(Map<String, dynamic> json) => _$DayFromJson(json);
 }
@@ -21,7 +18,7 @@ class Day extends Object with _$DaySerializerMixin{
 class Days {
   static int selectedDay = 0;
   static const String dayKey = "daykey";
-  static List<Day> days = new List();
+  static List<Day> days = [];
   static const String jsonKey = "json";
 
 
@@ -34,14 +31,14 @@ class Days {
     switch(direction)
     {
       case UpOrDown.Up:
-        sItem temp1 = days[selectedDay].items[itemIndex];
-        sItem temp2 = days[selectedDay].items[itemIndex-1];
+        SItem temp1 = days[selectedDay].items[itemIndex];
+        SItem temp2 = days[selectedDay].items[itemIndex-1];
         days[selectedDay].items[itemIndex] = temp2;
         days[selectedDay].items[itemIndex-1] = temp1;
         break;
       case UpOrDown.Down:
-        sItem temp1 = days[selectedDay].items[itemIndex];
-        sItem temp2 = days[selectedDay].items[itemIndex+1];
+        SItem temp1 = days[selectedDay].items[itemIndex];
+        SItem temp2 = days[selectedDay].items[itemIndex+1];
         days[selectedDay].items[itemIndex] = temp2;
         days[selectedDay].items[itemIndex+1] = temp1;
         break;
