@@ -5,8 +5,6 @@ import 'package:schedule/logic/Day.dart';
 import 'package:flutter/material.dart';
 import 'package:schedule/logic/sItem.dart';
 
-
-
 class ItemCreator extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new ItemCreatorState();
@@ -14,7 +12,6 @@ class ItemCreator extends StatefulWidget {
   VoidCallback saveData;
 
   ItemCreator(this.endpop, this.saveData);
-  
 }
 
 class ItemCreatorState extends State<ItemCreator> {
@@ -32,7 +29,6 @@ class ItemCreatorState extends State<ItemCreator> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     startHr = 0;
@@ -54,23 +50,12 @@ class ItemCreatorState extends State<ItemCreator> {
             ListView(
               padding: EdgeInsets.all(10.0),
               children: <Widget>[
-                new TextField(
-                  enabled: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
-                    border: const OutlineInputBorder(),
-                  ),
-                  style: Theme.of(context).textTheme.display1,
-                  onChanged: (String value) {
-                    name = value;
-                  },
-                ),
+                _InTextField(name: (s) => name = s, title: true, hint: "Name"),
                 new Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: new TextField(
-                    decoration: InputDecoration(
-                        labelText: "Place", border: OutlineInputBorder()),
-                    style: Theme.of(context).textTheme.body1,
+                    decoration: InputDecoration(labelText: "Place", border: OutlineInputBorder()),
+                    style: Theme.of(context).textTheme.bodyText1,
                     onChanged: (String value) {
                       place = value;
                     },
@@ -83,18 +68,17 @@ class ItemCreatorState extends State<ItemCreator> {
                       Text(startStr),
                       new Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: new RaisedButton.icon(
+                        child: new ElevatedButton.icon(
                             onPressed: () {
-                              showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay(
-                                          hour: startHr, minute: startMin))
-                                  .then((TimeOfDay value) {
-                                startHr = value.hour;
-                                startMin = value.minute;
-                                setState(() {
-                                  startStr = value.format(context);
-                                });
+                              showTimePicker(context: context, initialTime: TimeOfDay(hour: startHr, minute: startMin)).then((TimeOfDay value) {
+                                if (value != null) {
+                                  startHr = value.hour;
+                                  startMin = value.minute;
+
+                                  setState(() {
+                                    startStr = value.format(context);
+                                  });
+                                }
                               });
                             },
                             icon: Icon(Icons.access_time),
@@ -110,18 +94,17 @@ class ItemCreatorState extends State<ItemCreator> {
                       new Text(endStr),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: new RaisedButton.icon(
+                        child: new ElevatedButton.icon(
                             onPressed: () {
-                              showTimePicker(
-                                  context: context,
-                                  initialTime: TimeOfDay(
-                                      hour: endHr,
-                                      minute: endMin)).then((TimeOfDay value) {
-                                endHr = value.hour;
-                                endMin = value.minute;
-                                setState(() {
-                                  endStr = value.format(context);
-                                });
+                              showTimePicker(context: context, initialTime: TimeOfDay(hour: endHr, minute: endMin)).then((TimeOfDay value) {
+                                if (value != null) {
+                                  endHr = value.hour;
+                                  endMin = value.minute;
+
+                                  setState(() {
+                                    endStr = value.format(context);
+                                  });
+                                }
                               });
                             },
                             icon: Icon(Icons.access_time),
@@ -140,15 +123,7 @@ class ItemCreatorState extends State<ItemCreator> {
                     Icons.done,
                   ),
                   onPressed: () {
-                    Days.days[Days.selectedDay].items.add(new sItem(
-                        endHr: endHr,
-                        endMin: endMin,
-                        name: name,
-                        place: place,
-                        startHr: startHr,
-                        startMin: startMin,
-                        endStr: endStr,
-                        startStr: startStr));
+                    Days.days[Days.selectedDay].items.add(new sItem(endHr: endHr, endMin: endMin, name: name, place: place, startHr: startHr, startMin: startMin, endStr: endStr, startStr: startStr));
                     setState(() {
                       Navigator.pop(context);
                       widget.endpop();
@@ -161,6 +136,29 @@ class ItemCreatorState extends State<ItemCreator> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _InTextField extends StatelessWidget {
+  final Function(String) name;
+  final bool title;
+  final String hint;
+
+  _InTextField({Key key, @required this.name, @required this.hint, @required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      enabled: true,
+      decoration: InputDecoration(
+        labelText: hint,
+        border: const OutlineInputBorder(),
+      ),
+      style: Theme.of(context).textTheme.headline4,
+      onChanged: (String value) {
+        name(value);
+      },
     );
   }
 }

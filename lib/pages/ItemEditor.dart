@@ -29,7 +29,6 @@ class ItemEditorState extends State<ItemEditor> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     print("at index: " + widget.itemIndex.toString());
@@ -69,8 +68,7 @@ class ItemEditorState extends State<ItemEditor> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: new TextField(
                     controller: TextEditingController(text: place),
-                    decoration: InputDecoration(
-                        labelText: "Place", border: OutlineInputBorder()),
+                    decoration: InputDecoration(labelText: "Place", border: OutlineInputBorder()),
                     style: Theme.of(context).textTheme.body1,
                     onChanged: (String value) {
                       place = value;
@@ -84,18 +82,17 @@ class ItemEditorState extends State<ItemEditor> {
                       Text(startStr),
                       new Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: new RaisedButton.icon(
+                        child: new ElevatedButton.icon(
                             onPressed: () {
-                              showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay(
-                                          hour: startHr, minute: startMin))
-                                  .then((TimeOfDay value) {
-                                startHr = value.hour;
-                                startMin = value.minute;
-                                setState(() {
-                                  startStr = value.format(context);
-                                });
+                              showTimePicker(context: context, initialTime: TimeOfDay(hour: startHr, minute: startMin)).then((TimeOfDay value) {
+                                if (value != null) {
+                                  startHr = value.hour;
+                                  startMin = value.minute;
+
+                                  setState(() {
+                                    startStr = value.format(context);
+                                  });
+                                }
                               });
                             },
                             icon: Icon(Icons.access_time),
@@ -111,18 +108,17 @@ class ItemEditorState extends State<ItemEditor> {
                       new Text(endStr),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: new RaisedButton.icon(
+                        child: new ElevatedButton.icon(
                             onPressed: () {
-                              showTimePicker(
-                                  context: context,
-                                  initialTime: TimeOfDay(
-                                      hour: endHr,
-                                      minute: endMin)).then((TimeOfDay value) {
-                                endHr = value.hour;
-                                endMin = value.minute;
-                                setState(() {
-                                  endStr = value.format(context);
-                                });
+                              showTimePicker(context: context, initialTime: TimeOfDay(hour: endHr, minute: endMin)).then((TimeOfDay value) {
+                                if (value != null) {
+                                  endHr = value.hour;
+                                  endMin = value.minute;
+
+                                  setState(() {
+                                    endStr = value.format(context);
+                                  });
+                                }
                               });
                             },
                             icon: Icon(Icons.access_time),
@@ -132,6 +128,7 @@ class ItemEditorState extends State<ItemEditor> {
                   ),
                 ),
                 new Card(
+                  clipBehavior: Clip.antiAlias,
                   child: Material(
                     color: Colors.red,
                     child: new InkWell(
@@ -145,8 +142,7 @@ class ItemEditorState extends State<ItemEditor> {
                                   new SimpleDialogOption(
                                     child: new Text("Yes"),
                                     onPressed: () {
-                                      Days.days[Days.selectedDay].items
-                                          .removeAt(widget.itemIndex);
+                                      Days.days[Days.selectedDay].items.removeAt(widget.itemIndex);
                                       Navigator.pop(context);
                                       Navigator.pop(context);
                                     },
@@ -182,22 +178,14 @@ class ItemEditorState extends State<ItemEditor> {
                     Icons.done,
                   ),
                   onPressed: () {
-                    Days.days[Days.selectedDay].items[widget.itemIndex]
-                        .startStr = startStr;
-                    Days.days[Days.selectedDay].items[widget.itemIndex]
-                        .startMin = startMin;
-                    Days.days[Days.selectedDay].items[widget.itemIndex]
-                        .startHr = startHr;
-                    Days.days[Days.selectedDay].items[widget.itemIndex].endStr =
-                        endStr;
-                    Days.days[Days.selectedDay].items[widget.itemIndex].endMin =
-                        endMin;
-                    Days.days[Days.selectedDay].items[widget.itemIndex].endHr =
-                        endHr;
-                    Days.days[Days.selectedDay].items[widget.itemIndex].name =
-                        name;
-                    Days.days[Days.selectedDay].items[widget.itemIndex].place =
-                        place;
+                    Days.days[Days.selectedDay].items[widget.itemIndex].startStr = startStr;
+                    Days.days[Days.selectedDay].items[widget.itemIndex].startMin = startMin;
+                    Days.days[Days.selectedDay].items[widget.itemIndex].startHr = startHr;
+                    Days.days[Days.selectedDay].items[widget.itemIndex].endStr = endStr;
+                    Days.days[Days.selectedDay].items[widget.itemIndex].endMin = endMin;
+                    Days.days[Days.selectedDay].items[widget.itemIndex].endHr = endHr;
+                    Days.days[Days.selectedDay].items[widget.itemIndex].name = name;
+                    Days.days[Days.selectedDay].items[widget.itemIndex].place = place;
                     setState(() {
                       Navigator.pop(context);
                       widget.endpop();

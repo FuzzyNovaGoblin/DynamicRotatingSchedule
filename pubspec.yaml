@@ -1,9 +1,9 @@
 name: schedule
 description: A rotating schedual app
 
-publish_to: 'none' 
+publish_to: 'none'
 
-version: 1.2.0+2
+version: 1.2.2+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
